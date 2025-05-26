@@ -1,0 +1,22 @@
+# Zależności PHP (Composer)
+vendor/
+
+# Zależności Node.js
+node_modules/
+
+# Plik środowiskowy
+.env
+
+# Pliki dzienników
+*.log
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Artefakty budowania
+/build/
+/dist/
