@@ -1,0 +1,13 @@
+{
+    "name": "rebrandy/re-spis-tresci",
+    "description": "Uniwersalny generator spisu treści",
+    "type": "wordpress-plugin",
+    "require": {},
+
+
+"autoload": {
+  "psr-4": {
+    "ReSpis\\Core\\": "inc/"
+  }
+}
+}
