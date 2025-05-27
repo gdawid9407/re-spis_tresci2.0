@@ -22,7 +22,7 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 add_action('init', function() {
      // ładuje pliki tłumaczeń z /languages
     load_plugin_textdomain(
-        're-spis-tresci',
+        're-spis_tresci',
         false,
         dirname( plugin_basename( __FILE__ ) ) . '/languages'
     );
