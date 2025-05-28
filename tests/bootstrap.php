@@ -7,7 +7,7 @@ $wp_tests_dir = getenv('WP_TESTS_DIR') ?: dirname(__DIR__) . '/vendor/wp-phpunit
 
 // Załaduj wtyczkę przed testami
 function _load_re_spis_tresci_plugin() {
-    require dirname( __DIR__ ) . '/re-spis_tresci.php';
+    require dirname( __DIR__ ) . '/re-spis-tresci.php';
 }
 tests_add_filter( 'muplugins_loaded', '_load_re_spis_tresci_plugin' );
 
