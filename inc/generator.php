@@ -1,6 +1,8 @@
 <?php
 namespace Unitoc\Core;
 
+use Unitoc\Core\Cache;
+
 final class Generator
 {
     /**
@@ -24,6 +26,12 @@ final class Generator
         $html  = '<nav class="toc-nav" role="navigation" aria-label="Spis treści">';
         $html .= '<ul class="toc-list toc-level-' . $firstLevel . '" role="list">';
 
+        $hash   = md5( serialize( $headings ) );
+        $cached = Cache::get( get_the_ID(), $hash );
+        if ( $cached ) {
+            return $cached;
+        }
+        
         foreach ($headings as $heading) {
             $level = (int) $heading['level'];
             $id    = htmlspecialchars($heading['id'],   ENT_QUOTES, 'UTF-8');
@@ -54,6 +62,8 @@ final class Generator
 
         $html .= '</li></ul>';
         $html .= '</nav>';
+
+        Cache::set( get_the_ID(), $hash, $html ); // cache save        
 
         return $html;
     }
