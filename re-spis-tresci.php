@@ -20,13 +20,21 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
     require_once __DIR__ . '/inc/autoload.php';
 }
 
-add_filter( 'the_content', function( string $content ): string {
-    $headings = Parser::parse( $content );
-    if ( empty( $headings ) ) {
-        return $content;
-    }
-    return Generator::generate( $headings ) . $content;
-});
+
+add_filter(
+    'the_content',
+    function ( string $content ): string {
+        // Parser::filterContent (priorytet 8) już oznaczył nagłówki.
+        $headings = Parser::getHeadings();
+
+        if ( empty( $headings ) ) {
+            return $content;
+        }
+
+        return Generator::generate( $headings ) . $content;
+    },
+    12 // >8 gwarantuje, że analiza jest gotowa
+);
 
 // Rejestracja bloku Gutenberg i tłumaczeń
 add_action( 'init', function(): void {
