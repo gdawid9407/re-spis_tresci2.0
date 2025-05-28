@@ -3,7 +3,7 @@
  * PSR-4 Autoloader dla klas core w namespace Unitoc\Core
  */
 spl_autoload_register(function ($class) {
-    $prefix   = 'ReSpis\\Core\\';
+    $prefix   = 'Unitoc\\Core\\';
     $base_dir = __DIR__ . '/';
     $len = strlen($prefix);
 

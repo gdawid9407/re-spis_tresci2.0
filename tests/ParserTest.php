@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace ReSpis\Core {
+namespace Unitoc\Core {
     function is_singular(): bool { return \Tests\ParserTestHelper::$singular; }  // poprawiony FQN
     function in_the_loop(): bool { return \Tests\ParserTestHelper::$inLoop; }
     function is_main_query(): bool { return \Tests\ParserTestHelper::$mainQuery; }
@@ -9,7 +9,7 @@ namespace ReSpis\Core {
 
 namespace Tests {
     use PHPUnit\Framework\TestCase;
-    use ReSpis\Core\Parser;
+    use Unitoc\Core\Parser;
 
     // helper do symulacji warunków WordPress
     final class ParserTestHelper {

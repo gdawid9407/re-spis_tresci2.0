@@ -4,7 +4,7 @@
     "type": "wordpress-plugin",
     "autoload": {
   "psr-4": {
-    "ReSpis\\Core\\": "inc/"
+    "Unitoc\\Core\\": "inc/"
   }
 },
     "require-dev": {
@@ -13,7 +13,7 @@
     },
   "autoload-dev": {
     "psr-4": {
-      "ReSpisTresci\\Tests\\": "tests/"
+      "Unitoc\\Tests\\": "tests/"
     }
   },
   "scripts": {
