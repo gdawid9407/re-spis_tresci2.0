@@ -10,6 +10,7 @@
 
 use Unitoc\Core\Parser;
 use Unitoc\Core\Generator;
+use Unitoc\Core\Shortcode;
 
 defined('ABSPATH') || exit;
 
@@ -20,6 +21,7 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
     require_once __DIR__ . '/inc/autoload.php';
 }
 
+Shortcode::init();
 
 add_filter(
     'the_content',
