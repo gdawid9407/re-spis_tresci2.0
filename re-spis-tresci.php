@@ -23,6 +23,8 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 
 Shortcode::init();
 
+add_action( 'init', [ Parser::class, 'init' ] );
+
 add_filter(
     'the_content',
     function ( string $content ): string {
