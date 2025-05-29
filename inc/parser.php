@@ -15,6 +15,18 @@ final class Parser
     public static function init(): void
     {
         add_filter('the_content', [self::class, 'filterContent'], 8);
+        add_action('wp_enqueue_scripts', [self::class, 'enqueueDynamicScript']);
+    }
+    
+    public static function enqueueDynamicScript(): void
+    {
+    wp_enqueue_script(
+        'unitoc-dynamic-headings',
+        plugin_dir_url(__FILE__) . 'assets/js/dynamic-headings.js',
+        ['jquery'],
+        '1.0',
+        true
+    );
     }
 
     public static function filterContent(string $content): string
