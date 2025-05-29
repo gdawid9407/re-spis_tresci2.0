@@ -1,5 +1,5 @@
 <?php
-namespace ReSpisTresci\Tests;
+namespace Unitoc\Core;
 
 use Unitoc\Core\Generator;
 use WP_UnitTestCase;
