@@ -3,7 +3,7 @@ import { PanelBody, RangeControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 export default function Edit({ attributes, setAttributes }) {
-  const { depth, minHeaders, numbering, collapse } = attributes;
+  const { depth, min_headings, numbering, collapse } = attributes;
   const blockProps = useBlockProps();
 
   return (
@@ -19,8 +19,8 @@ export default function Edit({ attributes, setAttributes }) {
           />
           <RangeControl
             label={__('Minimalna liczba nagłówków', 're-spis-tresci')}
-            value={minHeaders}
-            onChange={(value) => setAttributes({ minHeaders: value })}
+            value={min_headings}
+            onChange={(value) => setAttributes({ min_headings: value })}
             min={1}
             max={10}
           />

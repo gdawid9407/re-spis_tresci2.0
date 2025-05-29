@@ -1,5 +1,5 @@
 <?php
-namespace Unitoc;
+namespace Unitoc\Core;
 
 use Unitoc\Core\Parser;
 use Unitoc\Core\Generator;
@@ -24,7 +24,7 @@ class Widget extends \WP_Widget
         $wrapper = sanitize_html_class($instance['wrapper_class'] ?? '');
         $headings = Parser::getHeadings();
         if (count($headings) >= $min) {
-            $html = Generator::generate($headings);
+            $html = Generator::generate($headings, $depth);
             if ($wrapper !== '') {
                 echo "<div class=\"{$wrapper}\">{$html}</div>";
             } else {

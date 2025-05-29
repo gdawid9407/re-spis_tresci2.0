@@ -1,5 +1,8 @@
 <?php
-namespace Unitoc;
+namespace Unitoc\Core;
+
+use Unitoc\Core\Parser;
+use Unitoc\Core\Generator;
 
 class Shortcode {
     public static function init(): void {
@@ -11,14 +14,22 @@ class Shortcode {
             'depth'         => 4,
             'min_headings'  => 2,
             'wrapper_class' => '',
+            'numbering'     => true,
+            'collapse'      => false,
         ], $atts, 'unitoc');
 
-        $headings = Core\Parser::getHeadings();
+        $headings = Parser::getHeadings();
         if (count($headings) < (int) $atts['min_headings']) {
             return '';
         }
 
-        $html = Core\Generator::generate($headings, (int) $atts['depth']);
+        $html     = Generator::generate(
+        $headings,
+        (int)   $atts['depth'],
+        (bool)  $atts['numbering'],
+        (bool)  $atts['collapse']
+        );
+
         $wrapper = trim($atts['wrapper_class']);
 
         if ($wrapper !== '') {

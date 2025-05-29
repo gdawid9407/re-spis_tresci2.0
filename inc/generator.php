@@ -8,13 +8,11 @@ final class Generator
     /**
      * Generuje hierarchiczny spis treści z obsługą klas CSS i atrybutów ARIA.
      *
-     * @param array[] $headings [
-     *     ['level' => int, 'id' => string, 'text' => string],
-     *     …
-     * ]
+     * @param array $headings
+     * @param int $depth maksymalna głębokość nagłówków
      * @return string
      */
-    public static function generate(array $headings): string
+    public static function generate(array $headings, int $depth = PHP_INT_MAX): string
     {
         if (empty($headings)) {
             return '';
@@ -22,6 +20,13 @@ final class Generator
 
         $firstLevel   = (int) $headings[0]['level'];
         $currentLevel = $firstLevel;
+        
+        $headings = array_filter($headings, function(array $h) use ($firstLevel, $depth): bool {
+            return ((int) $h['level'] - $firstLevel + 1) <= $depth;
+    });
+    if (empty($headings)) {
+        return '';
+    }
 
         $html  = '<nav class="toc-nav" role="navigation" aria-label="Spis treści">';
         $html .= '<ul class="toc-list toc-level-' . $firstLevel . '" role="list">';

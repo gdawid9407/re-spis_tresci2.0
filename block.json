@@ -14,7 +14,7 @@
       "type": "number",
       "default": 4
     },
-    "minHeaders": {
+    "min_headings": {
       "type": "number",
       "default": 2
     },
