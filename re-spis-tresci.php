@@ -11,6 +11,9 @@
 use Unitoc\Core\Parser;
 use Unitoc\Core\Generator;
 use Unitoc\Core\Shortcode;
+use Unitoc\Core\VC_Integration;
+use Unitoc\Core\Fallback_Shortcode;
+
 
 defined('ABSPATH') || exit;
 
@@ -22,8 +25,10 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 }
 
 Shortcode::init();
+Fallback_Shortcode::init();
 
 add_action( 'init', [ Parser::class, 'init' ] );
+add_action( 'vc_before_init', [ VC_Integration::class, 'init' ] );
 
 add_filter(
     'the_content',
