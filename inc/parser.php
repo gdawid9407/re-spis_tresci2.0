@@ -39,13 +39,13 @@ final class Parser
         libxml_use_internal_errors(true);
 
         $doc = new DOMDocument();
-        $html = mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8');
-        $needsWrapper = stripos($html, '<html') === false;
-        $source = $needsWrapper ? "<div>{$html}</div>" : $html;
-        if ($doc->loadHTML($source) === false) {
-            libxml_clear_errors();
-            return $content;
-        }
+        $wrapper = '<?xml encoding="UTF-8"><div>' . $content . '</div>';
+        if ($doc->loadHTML($wrapper) === false) {
+        libxml_clear_errors();
+        return $content;
+    }
+
+    $xpath = new DOMXPath($doc);
 
         $xpath = new DOMXPath($doc);
         $nodes = $xpath->query('//h1|//h2|//h3|//h4');
