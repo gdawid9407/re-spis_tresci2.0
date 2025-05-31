@@ -18,14 +18,16 @@ final class SettingsPage {
         add_action('admin_init',  [self::class, 'register']);
     }
 
-    /** Dodaj podstronę do Ustawień */
+    /** Dodaj stronę do głównego menu administratora */ // Zmieniony komentarz dla jasności
     public static function add(): void {
-        add_options_page(
-            __('Re‑Spis Treści Ustawienia', 're-spis-tresci'), // Tytuł strony
-            __('Re‑Spis Treści', 're-spis-tresci'),            // Tytuł w menu
-            self::CAP,
-            self::SLUG,
-            [self::class, 'render']
+        add_menu_page(
+            __('Re‑Spis Treści Ustawienia', 're-spis-tresci'), // Tytuł strony (widoczny w tagu <title> przeglądarki)
+            __('Re‑Spis Treści', 're-spis-tresci'),            // Tytuł wyświetlany w menu
+            self::CAP,                                         // Wymagane uprawnienia do zobaczenia tej pozycji menu
+            self::SLUG,                                        // Unikalny identyfikator (slug) tego menu
+            [self::class, 'render'],                           // Funkcja, która wygeneruje zawartość strony
+            'dashicons-list-view',                             // Ikona dla menu (używamy Dashicons, np. 'dashicons-list-view')
+            26                                                 // Pozycja w menu (liczba; niższa = wyżej. Np. 26 umieści ją poniżej "Komentarze")
         );
     }
 
