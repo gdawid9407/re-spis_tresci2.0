@@ -27,7 +27,10 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 
 Shortcode::init();
 Fallback_Shortcode::init();
-SettingsPage::init();
+
+if ( is_admin() ) {
+    SettingsPage::init();
+}
 
 add_action( 'init', [ Parser::class, 'init' ] );
 add_action( 'vc_before_init', [ VC_Integration::class, 'init' ] );
