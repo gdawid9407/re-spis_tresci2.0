@@ -4,7 +4,8 @@
     "type": "wordpress-plugin",
     "autoload": {
   "psr-4": {
-    "Unitoc\\Core\\": "inc/"
+    "Unitoc\\Core\\": "inc/",
+    "Unitoc\\Admin\\": "inc/Admin/"
   }
 },
     "require-dev": {
