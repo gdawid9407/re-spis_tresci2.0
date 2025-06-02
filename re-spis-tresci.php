@@ -14,7 +14,8 @@ use Unitoc\Core\Shortcode;
 use Unitoc\Core\VC_Integration;
 use Unitoc\Core\Fallback_Shortcode;
 use Unitoc\Admin\SettingsPage;
-
+use Unitoc\Core\Sidebar;
+use Unitoc\Core\Widget;
 
 defined('ABSPATH') || exit;
 
@@ -27,6 +28,18 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 
 Shortcode::init();
 Fallback_Shortcode::init();
+add_action( 'widgets_init', [ Sidebar::class, 'register' ] );
+add_action( 'wp_body_open', [ Sidebar::class, 'output' ] );
+
+add_action( 'init', function () {
+    // wymuś załadowanie klasy, co zarejestruje widget przed widgets_init
+    class_exists( Widget::class ); 
+}, 5 );                          // priorytet < widgets_init
+
+add_action('init', function() {
+    register_block_type( __DIR__ . '/block.json' );
+});
+
 
 if ( is_admin() ) {
     SettingsPage::init();
@@ -123,7 +136,7 @@ add_action( 'init', function(): void {
         false,
         dirname( plugin_basename( __FILE__ ) ) . '/languages'
     );
-    register_block_type( __DIR__ . '/block.json' );
+    
 });
 
 // Rejestracja i enqueue stylów oraz skryptów

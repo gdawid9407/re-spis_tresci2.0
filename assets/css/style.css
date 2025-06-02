@@ -1,0 +1,9 @@
+.unitoc-fixed{
+    position:fixed;
+    right:0;
+    top:120px;
+    width:300px;
+    max-height:80vh;
+    overflow:auto;
+    padding:1rem;
+}

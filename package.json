@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "wp-scripts build",
+    "build": "wp-scripts build --output-path=build",
     "start": "wp-scripts start",
     "sass": "sass assets/css/style.scss assets/css/style.css --no-source-map"
   },
