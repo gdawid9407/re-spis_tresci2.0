@@ -26,6 +26,18 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
     require_once __DIR__ . '/inc/autoload.php';
 }
 
+/* --------------------------------------------------
+ * Elementor integration – ładowane dopiero gdy Elementor
+ * zakończy inicjalizację i posiada Widget_Base.
+ * -------------------------------------------------- */
+add_action( 'elementor/widgets/register', static function ( $widgets_manager ) {
+    require_once __DIR__ . '/inc/Elementor.php';           // definicja widgetu
+
+    if ( class_exists( '\\Unitoc\\Core\\Elementor_Widget_Unitoc' ) ) {
+        $widgets_manager->register( new \Unitoc\Core\Elementor_Widget_Unitoc() );
+    }
+}, 20 );
+
 Shortcode::init();
 Fallback_Shortcode::init();
 add_action( 'widgets_init', [ Sidebar::class, 'register' ] );

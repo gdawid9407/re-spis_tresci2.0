@@ -6,6 +6,10 @@ use Elementor\Controls_Manager;
 use Unitoc\Core\Parser;
 use Unitoc\Core\Generator;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 class Elementor_Widget_Unitoc extends Widget_Base
 {
     public function get_name() { return 'unitoc_toc'; }
