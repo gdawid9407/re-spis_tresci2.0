@@ -56,6 +56,13 @@ add_action('init', function() {
 if ( is_admin() ) {
     SettingsPage::init();
 }
+add_filter(
+    'elementor/frontend/the_content',            // treść po renderze Elementora
+    static function ( string $content ): string {
+        return \Unitoc\Core\Parser::filterContent( $content ); // dodaj id do nagłówków
+    },
+    20                                           // później niż domyślne hooki Elementora
+);
 
 add_action( 'init', [ Parser::class, 'init' ] );
 add_action( 'vc_before_init', [ VC_Integration::class, 'init' ] );
