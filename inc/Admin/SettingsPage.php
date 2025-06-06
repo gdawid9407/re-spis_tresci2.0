@@ -130,6 +130,16 @@ final class SettingsPage {
                 'show_in_rest'      => true,
             ]
         );
+        register_setting(
+        self::OPTION_GROUP,
+        'unitoc_style_source',
+            [
+            'type'              => 'string',
+            'sanitize_callback' => [self::class, 'sanitize_style_source'],
+            'default'           => 'default',
+            'show_in_rest'      => true,
+            ]
+        );
 
 
         /* ===== Sekcja (pozostaje ta sama) ===== */
@@ -166,6 +176,8 @@ final class SettingsPage {
             'unitoc_section_general',
             ['label_for' => 'unitoc_min_headings_field']
         );
+        
+        
         add_settings_field(
             'unitoc_wrapper_class',
             __('Klasa CSS dla kontenera (wrappera)', 're-spis-tresci'),
@@ -182,6 +194,16 @@ final class SettingsPage {
             'unitoc_section_general',
             ['label_for' => 'unitoc_list_class_field']
         );
+        
+        add_settings_field(
+            'unitoc_style_source',
+            __('Źródło stylów TOC', 're-spis-tresci'),
+            [self::class, 'field_style_source'],
+            self::SLUG,
+            'unitoc_section_general'
+        );
+
+
 
         /* ===== NOWE Pola (9.4) ===== */
         add_settings_field(
@@ -226,6 +248,14 @@ final class SettingsPage {
         $all_public_types = array_keys(get_post_types(['public' => true]));
         return array_values(array_intersect($input, $all_public_types));
     }
+    
+    public static function sanitize_style_source($input): string {
+        return in_array($input, ['default', 'theme'], true) ? $input : 'default';
+    }
+
+    
+    
+    
     public static function sanitize_depth($input): int {
         $depth = absint($input);
         return max(1, min(6, $depth));
@@ -323,6 +353,15 @@ final class SettingsPage {
         echo '<input type="text" class="regular-text" name="unitoc_toc_title" id="unitoc_toc_title_field" value="' . esc_attr($value) . '" />';
         echo '<p class="description">' . esc_html__('Wprowadź tekst, który ma być wyświetlany jako tytuł spisu treści (jeśli opcja powyżej jest zaznaczona).', 're-spis-tresci') . '</p>';
     }
+    public static function field_style_source(): void {
+    $current = get_option('unitoc_style_source', 'default');
+    echo '<label><input type="radio" name="unitoc_style_source" value="default" '
+            . checked($current, 'default', false) . '> '
+            . esc_html__('Domyślny styl wtyczki', 're-spis-tresci') . '</label><br>';
+    echo '<label><input type="radio" name="unitoc_style_source" value="theme" '
+            . checked($current, 'theme', false) . '> '
+            . esc_html__('Styl motywu', 're-spis-tresci') . '</label>';
+}
 
 
     /** Ekran opcji */
