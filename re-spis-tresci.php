@@ -105,7 +105,12 @@ add_filter(
         $insert_position     = get_option('unitoc_insert_position', 'before_content');
 
         // 5. Wygeneruj HTML spisu treści
-        $toc_html = Generator::generate($headings, $max_depth_option, $list_class_option); // Dodany $list_class_option
+       if ( 'theme' === get_option('unitoc_style_source','default') ) {
+    // przekaz pustą list_class, nie dodawaj wrapper_class
+        $toc_html = Generator::generate($headings, $max_depth_option, '');
+    } else {
+        $toc_html = Generator::generate($headings, $max_depth_option, $list_class_option);
+    }
 
         if (empty($toc_html)) {
             return $content;
@@ -158,29 +163,56 @@ add_action( 'init', function(): void {
     
 });
 
-// Rejestracja i enqueue stylów oraz skryptów
-add_action( 'wp_enqueue_scripts', function(): void {
-    $url_base  = plugin_dir_url( __FILE__ );
-    $path_base = plugin_dir_path( __FILE__ );
+/* === Style & JS === */
+add_action( 'wp_enqueue_scripts', function (): void {
+    $src = get_option( 'unitoc_style_source', 'default' );
 
-    $css = 'assets/css/style.css';
-    $js  = 'assets/js/toc.js';
+    if ( $src === 'default' ) {
+        // CSS z wtyczki
+        $path = plugin_dir_path( __FILE__ ) . 'assets/css/style.css';
+        wp_enqueue_style(
+            're-spis-tresci',
+            plugin_dir_url( __FILE__ ) . 'assets/css/style.css',
+            [],
+            filemtime( $path )
+        );
+    } elseif ( $src === 'theme' ) {
+        // 1) priorytet: ogólny arkusz w motywie, jeśli istnieje
+        $gen = get_stylesheet_directory() . '/unitoc-general.css';
+        if ( file_exists( $gen ) ) {
+            wp_enqueue_style(
+                're-spis-tresci',
+                get_stylesheet_directory_uri() . '/unitoc-general.css',
+                [],
+                filemtime( $gen )
+            );
+        }
+        // 2) brak unitoc-general.css → polegamy na theme/style.css (WordPress ładuje go sam)
+    }
 
-    wp_register_style(
-        're-spis-tresci-style',
-        $url_base . $css,
-        [],
-        file_exists( $path_base . $css ) ? filemtime( $path_base . $css ) : false
-    );
-
-    wp_register_script(
-        're-spis-tresci-script',
-        $url_base . $js,
-        [ 'jquery' ],
-        file_exists( $path_base . $js ) ? filemtime( $path_base . $js ) : false,
+    // JS (jeden plik, bez duplikatów)
+    $js = plugin_dir_path( __FILE__ ) . 'assets/js/dynamic-headings.js';
+    wp_enqueue_script(
+        're-spis-tresci',
+        plugin_dir_url( __FILE__ ) . 'assets/js/dynamic-headings.js',
+        ['jquery'],
+        filemtime( $js ),
         true
     );
+} );
 
-    wp_enqueue_style( 're-spis-tresci-style' );
-    wp_enqueue_script( 're-spis-tresci-script' );
+/* === Ostrzeżenie, gdy motyw nie ma stylów === */
+add_action( 'admin_notices', function (): void {
+    if ( get_option( 'unitoc_style_source', 'default' ) !== 'theme' ) {
+        return; // nie dotyczy
+    }
+
+    $has_general = file_exists( get_stylesheet_directory() . '/unitoc-general.css' );
+    $has_style   = file_exists( get_stylesheet_directory() . '/style.css' ); // powinien istnieć, ale sprawdzamy na wszelki wypadek
+
+    if ( ! $has_general && ! $has_style ) {
+        echo '<div class="notice notice-warning"><p>'
+           . esc_html__( 'Motyw nie zawiera własnych stylów – wczytywany jest domyślny arkusz wtyczki.', 're-spis-tresci' )
+           . '</p></div>';
+    }
 } );
