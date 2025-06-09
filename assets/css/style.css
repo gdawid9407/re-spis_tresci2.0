@@ -8,20 +8,3 @@
     padding:1rem;
 }
 
-/* interaktywne podkreślenie linku */
-.toc-link {
-  text-decoration: none;
-  background-image: linear-gradient(currentColor, currentColor); /* cienka kreska */
-  background-size: 0% 1px;
-  background-repeat: no-repeat;
-  background-position: 0 100%;
-  transition: background-size .2s ease-in-out;
-}
-
-.toc-link:hover,
-.toc-link:focus-visible {
-  background-size: 100% 1px;      /* pełne podkreślenie */
-  cursor: pointer;                /* wskaźnik linku */
-}
-
-

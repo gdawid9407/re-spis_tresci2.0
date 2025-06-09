@@ -30,5 +30,6 @@
   
   "editorScript": "file:./build/index.js",
   "editorStyle": "file:./build/index.css",
-  "script": "file:./assets/js/toc.js"
+  "script": "file:./assets/js/toc.js",
+  "style": "file:./assets/css/style.css"
 }
