@@ -10,6 +10,10 @@ class Sidebar {
 
     /** Rejestracja obszaru widgetów */
     public static function register() {
+    
+     if ( ! get_option( 'unitoc_enable_sidebar', true ) ) 
+     { return; }
+    
         register_sidebar( [
             'name'          => __( 'Re-Spis Treści', 're-spis-tresci' ),
             'id'            => self::ID,

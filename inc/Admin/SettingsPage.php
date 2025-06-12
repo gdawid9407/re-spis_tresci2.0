@@ -69,6 +69,16 @@ final class SettingsPage {
             ]
         );
         register_setting(
+        self::OPTION_GROUP,
+        'unitoc_enable_sidebar',
+        [
+            'type'              => 'boolean',
+            'sanitize_callback' => [self::class, 'sanitize_boolean'],
+            'default'           => true,
+            'show_in_rest'      => true,
+            ]
+        );
+        register_setting(
             self::OPTION_GROUP,
             'unitoc_wrapper_class',
             [
@@ -149,7 +159,17 @@ final class SettingsPage {
             '__return_false',
             self::SLUG
         );
+        
+        add_settings_field(
+            'unitoc_enable_sidebar',                                    // id pola
+            __('Pokazuj dedykowany widget', 're-spis-tresci'),          // etykieta w panelu
+            [self::class, 'field_enable_sidebar'],                      // callback z HTML-em pola
+            self::SLUG,                                                 // slug strony opcji
+            'unitoc_section_general',                                   // sekcja
+            ['label_for' => 'unitoc_enable_sidebar_field']              // a11y
+        );
 
+        
         /* ===== Istniejące Pola ===== */
         add_settings_field(
             'unitoc_content_types',
@@ -363,6 +383,18 @@ final class SettingsPage {
             . esc_html__('Styl motywu', 're-spis-tresci') . '</label>';
 }
 
+     public static function field_enable_sidebar(): void {
+        $value = (bool) get_option( 'unitoc_enable_sidebar', true );
+
+        echo '<input type="checkbox"
+                     id="unitoc_enable_sidebar_field"
+                     name="unitoc_enable_sidebar"
+                     value="1" ' . checked( $value, true, false ) . ' />';
+
+        echo '<p class="description">' .
+             esc_html__( 'Odznacz, aby całkowicie ukryć obszar „Re-Spis Treści” w ekranie Wygląd → Widgety.', 're-spis-tresci' ) .
+             '</p>';
+    }
 
     /** Ekran opcji */
     public static function render(): void {
